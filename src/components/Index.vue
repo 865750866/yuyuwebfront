@@ -3,7 +3,11 @@
   <el-container>
     <el-header>Header</el-header>
     <el-container>
-      <el-aside width="200px">Aside</el-aside>
+
+      <el-aside width="200px">
+        <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+      </el-aside>
+
       <el-container>
         <el-main>Main</el-main>
         <el-footer>Footer</el-footer>
@@ -15,7 +19,41 @@
 
 <script>
 export default {
-  name: 'Index'
+  name: 'Index',
+  data: function () {
+    return {
+      data: [{
+        label: '一级 1',
+        id: 1,
+        children: [{
+          label: '二级 1-1',
+          children: [{
+            label: '三级 1-1-1'
+          }]
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    }
+  },
+  methods: {
+    handleNodeClick (data) {
+      console.log(data)
+    }
+  },
+  mounted: function () {
+    const axios = require('axios')
+
+    // 得到所有菜单
+    axios.get('/api/system/getAllMenu')
+      .then(function (response) {
+        // handle success
+        console.log(response)
+      })
+  }
+
 }
 </script>
 
@@ -28,27 +66,11 @@ export default {
     line-height: 60px;
   }
 
-  .el-aside {
-    background-color: #D3DCE6;
-    color: #333;
-    text-align: center;
-    line-height: 200px;
-  }
-
   .el-main {
     background-color: #E9EEF3;
     color: #333;
     text-align: center;
     line-height: 160px;
-  }
-
-  .el-container:nth-child(5) .el-aside,
-  .el-container:nth-child(6) .el-aside {
-    line-height: 260px;
-  }
-
-  .el-container:nth-child(7) .el-aside {
-    line-height: 320px;
   }
 
 </style>
