@@ -14,4 +14,10 @@ export default {
 #app {
 
 }
+html{
+    margin: 0px;
+}
+  body{
+    margin: 0px;
+  }
 </style>
