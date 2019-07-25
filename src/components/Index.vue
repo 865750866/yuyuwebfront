@@ -5,7 +5,7 @@
     <el-container>
 
       <el-aside width="200px">
-        <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+        <el-tree :data="menuData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
       </el-aside>
 
       <el-container>
@@ -18,40 +18,30 @@
 </template>
 
 <script>
+
 export default {
   name: 'Index',
   data: function () {
     return {
-      data: [{
-        label: '一级 1',
-        id: 1,
-        children: [{
-          label: '二级 1-1',
-          children: [{
-            label: '三级 1-1-1'
-          }]
-        }]
-      }],
+      menuData: [],
       defaultProps: {
         children: 'children',
-        label: 'label'
+        label: 'name'
       }
     }
   },
   methods: {
-    handleNodeClick (data) {
-      console.log(data)
+    handleNodeClick (d) {
+      console.log(d)
     }
   },
   mounted: function () {
     const axios = require('axios')
-
     // 得到所有菜单
     axios.get('/api/system/getAllMenu')
       .then(function (response) {
-        // handle success
-        console.log(response)
-      })
+        this.menuData = response.data.data
+      }.bind(this))
   }
 
 }
